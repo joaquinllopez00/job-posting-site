@@ -8,7 +8,6 @@ class LoginView(TemplateView):
     '''Login Form for testing BaseUser concept'''
 
     def get(self, request):
-        breakpoint()
         form = LoginForm()
         return render(request, 'login.html', {'form': form})
 
