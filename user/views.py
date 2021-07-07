@@ -5,9 +5,10 @@ from django.contrib.auth import authenticate, login
 
 
 class LoginView(TemplateView):
-    """Login Form for testing BaseUser concept"""
+    '''Login Form for testing BaseUser concept'''
 
     def get(self, request):
+        breakpoint()
         form = LoginForm()
         return render(request, 'login.html', {'form': form})
 
@@ -16,7 +17,7 @@ class LoginView(TemplateView):
         form = LoginForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            user = authenticate(request, username=data["username"], password=data["password"])
+            user = authenticate(request, username=data['username'], password=data['password'])
             if user:
                 login(request, user)
-                return HttpResponseRedirect("/you_logged_in")
+                return HttpResponseRedirect('/')
