@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import EmployeeUser, EmployerUser
+from .models import BaseUser
 
 
-admin.site.register(EmployeeUser, UserAdmin)
-admin.site.register(EmployerUser, UserAdmin)
+admin.site.register(BaseUser, UserAdmin)
