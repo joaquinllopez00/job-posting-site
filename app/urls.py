@@ -29,5 +29,6 @@ urlpatterns = [
     path('', user_views.dashboard, name='dashboard'),
     path('notifications/', user_views.notification_view, name="notifications"),
     path('create/', user_views.create_job, name='createjob'),
+    path('profile/<str:username>/', user_views.profile_detail, name='userprofile'),
     path('admin/', admin.site.urls),
 ]

@@ -111,3 +111,10 @@ def create_job(request):
 
     form = JobForm()
     return render(request, 'listing.html', {'form': form})
+
+
+def profile_detail(request, username):
+    user = User.objects.filter(username=username).first()
+    listings = Listing.objects.filter(user=user).order_by('-time')
+    notifications = notification_count_view(request)
+    return render(request, 'profile.html', {'user': user, 'listings': listings, 'notifications': notifications})
