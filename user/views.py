@@ -1,3 +1,4 @@
+from django.template import RequestContext
 from django.shortcuts import render, HttpResponseRedirect, reverse
 from .forms import LoginForm, RegisterForm
 from user.models import User
@@ -39,6 +40,7 @@ def register_view(request):
     form = RegisterForm()
     return render(request, 'register.html', {'form': form})
 
+
 @login_required
 def dashboard(request):
     # user = listing.objects.filter(user=request.user)
@@ -49,3 +51,10 @@ def dashboard(request):
     # return render(request, 'dashboard.html', {'feed': feed, 'notifications': notifications})
     return render(request, 'dashboard.html')
 
+
+def handler404(request, exception):
+    return render(request, '404.html', status=404)
+
+
+def handler500(request):
+    return render(request, '500.html', status=500)
