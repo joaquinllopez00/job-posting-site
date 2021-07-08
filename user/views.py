@@ -33,7 +33,7 @@ def register_view(request):
         if form.is_valid():
             data = form.cleaned_data
             new_user = User.objects.create_user(username=data.get(
-                'username'), password=data.get('password'), display_name=data.get('display_name'), bio=data.get('bio'))
+                'username'), password=data.get('password'), name=data.get('name'), bio=data.get('bio'), signed_up=data.get('signed_up'), email=data.get('email'), role=data.get('role'))
             login(request, new_user)
             return HttpResponseRedirect(reverse('dashboard'))
 
