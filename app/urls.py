@@ -28,5 +28,6 @@ urlpatterns = [
     path('register/', user_views.register_view, name='registerview'),
     path('', user_views.dashboard, name='dashboard'),
     path('notifications/', user_views.notification_view, name="notifications"),
+    path('create/', user_views.create_job, name='createjob'),
     path('admin/', admin.site.urls),
 ]

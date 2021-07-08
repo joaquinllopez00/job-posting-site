@@ -1,5 +1,5 @@
 from django import forms
-from user.models import User
+from user.models import User, Listing
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -21,3 +21,12 @@ class UserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = "__all__"
+
+
+class JobForm(forms.ModelForm):
+    listing = forms.CharField(widget=forms.Textarea, max_length=140) #max length dictated by rubric
+
+    class Meta:
+        model = Listing
+        fields = "__all__"
+        # exclude = ['time', 'user']
