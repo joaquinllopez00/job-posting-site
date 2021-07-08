@@ -6,6 +6,7 @@ from user.forms import UserCreationForm, JobForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.views import View
+import re
 
 
 def login_view(request):
@@ -94,11 +95,11 @@ def create_job(request):
         form = JobForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            post = Job.objects.create(
-                job=data.get('job'),
+            post = Listing.objects.create(
+                listing=data.get('listing'),
                 user=request.user,
             )
-            mentions = re.findall(r'@(\w+)', data.get('job'))
+            mentions = re.findall(r'@(\w+)', data.get('listing'))
             if mentions:
                 for mention in mentions:
                     tagged_user = User.objects.get(username=mention)
