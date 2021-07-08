@@ -4,7 +4,6 @@ from user.models import User
 from user.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-# Create your views here.
 
 
 def login_view(request):
@@ -39,4 +38,3 @@ def register_view(request):
 
     form = RegisterForm()
     return render(request, 'register.html', {'form': form})
-

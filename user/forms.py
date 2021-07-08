@@ -15,10 +15,9 @@ class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['name', 'bio', 'email', 'role']
-        
-        
+
+
 class UserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = "__all__"
-
