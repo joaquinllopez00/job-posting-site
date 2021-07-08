@@ -17,3 +17,16 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.name + self.email
+
+class Listing(models.Model):
+    listing = models.CharField(max_length=140)
+    time = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.listing
+
+class Notification(models.Model):
+    mentioned = models.ForeignKey(User, on_delete=models.CASCADE)
+    mention_listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    mark_as_read = models.BooleanField(default=False)

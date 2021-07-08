@@ -1,7 +1,7 @@
 from django.template import RequestContext
 from django.shortcuts import render, HttpResponseRedirect, reverse
 from .forms import LoginForm, RegisterForm
-from user.models import User
+from user.models import User, Listing, Notification
 from user.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -43,7 +43,7 @@ def register_view(request):
 
 @login_required
 def dashboard(request):
-    # user = listing.objects.filter(user=request.user)
+    user = listing.objects.filter(user=request.user)
     # following = listing.objects.filter(user__in=request.user.following.all())
     # notifications = views.notification_count_view(request)
     # feed = user | following
@@ -58,3 +58,29 @@ def handler404(request, exception):
 
 def handler500(request):
     return render(request, '500.html', status=500)
+
+
+@login_required
+def notification_view(request):
+    listings = Notification.objects.filter(mentioned=request.user)
+    notification_count = 0
+    notif_list = []
+    for listing in listings:
+        if listing.mark_as_read == False:
+            notification_count += 1
+            notif_list.append(listing.mention_listing)
+            listing.mark_as_read = True
+            listing.save()
+    return render(request, 'notifications.html', {'mentions': notif_list, 'count': notification_count})
+
+
+def notification_count_view(request):
+    if request.user.is_authenticated:
+        notifications = Notification.objects.filter(mentioned=request.user)
+        notification_count = 0
+        for notification in notifications:
+            if notification.mark_as_read == False:
+                notification_count += 1
+    else:
+        notification_count = 0
+    return notification_count
