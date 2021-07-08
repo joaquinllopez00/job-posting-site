@@ -5,6 +5,7 @@ from user.models import User, Listing, Notification
 from user.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.views import View
 
 
 def login_view(request):
@@ -43,7 +44,7 @@ def register_view(request):
 
 @login_required
 def dashboard(request):
-    user = listing.objects.filter(user=request.user)
+    user = Listing.objects.filter(user=request.user)
     # following = listing.objects.filter(user__in=request.user.following.all())
     # notifications = views.notification_count_view(request)
     # feed = user | following
