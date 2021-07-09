@@ -1,0 +1,7 @@
+{% extends 'alternate_base.html' %}{% block content %}
+<div class="create_listing__container">
+  <form action="" method="post">
+    {% csrf_token %}{{form}} <input type="submit" value="Submit" id="create-listing__button" />
+  </form>
+</div>
+{% endblock %}
