@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from job.models import Listing
+
 class User(AbstractUser):
     classification = (('employer', 'Employer'), ('employee', 'Employee'))
     name = models.CharField(max_length=150)
