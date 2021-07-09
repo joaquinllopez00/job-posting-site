@@ -1,0 +1,4 @@
+.listing__container {
+  background-color: var(--background-color);
+  padding: 2rem;
+}

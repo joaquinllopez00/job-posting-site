@@ -1,0 +1,37 @@
+html,
+body {
+  padding: none;
+  margin: none;
+  box-sizing: border-box;
+}
+
+:root {
+  --font-stack: "Raleway", sans-serif;
+  --light-fontWeight: 100;
+  --heave-fontWeight: 400;
+  --font-logo: "Montseratt", sans-serif;
+  --background-color: rgb(240, 240, 240);
+  --light-color: #2dd8cd;
+  --darker-color: #2dd8cdf0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-family: var(--font-stack);
+  font-weight: var(--light-fontWeight);
+}
+
+a {
+  font-family: var(--font-stack);
+  font-weight: var(--heavy-fontWeight);
+  cursor: pointer;
+}
+
+nav {
+  background-color: var(--light-color);
+}
