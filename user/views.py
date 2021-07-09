@@ -45,7 +45,7 @@ def register_view(request):
 
 @login_required
 def dashboard(request):
-    user = Listing.objects.filter(user=request.user)
+    user = Listing.objects.filter(creator=request.user)
     # following = listing.objects.filter(user__in=request.user.following.all())
     # notifications = views.notification_count_view(request)
     # feed = user | following
@@ -116,6 +116,6 @@ def create_job(request):
 
 def profile_detail(request, username):
     user = User.objects.filter(username=username).first()
-    listings = Listing.objects.filter(user=user).order_by('-time')
+    listings = Listing.objects.filter(creator=user).order_by('-date_posted')
     notifications = notification_count_view(request)
     return render(request, 'profile.html', {'user': user, 'listings': listings, 'notifications': notifications})
