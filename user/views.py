@@ -9,6 +9,11 @@ from django.views import View
 import re
 
 
+def dashboard(request):
+    listings = Listing.objects.all()
+    return render(request, 'dashboard.html', {'listings': listings})
+
+
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -86,32 +91,6 @@ def notification_count_view(request):
     else:
         notification_count = 0
     return notification_count
-
-
-@login_required
-def create_job(request):
-    notifications = notification_count_view(request)
-    if request.method == 'POST':
-        form = JobForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            post = Listing.objects.create(
-                listing=data.get('listing'),
-                user=request.user,
-            )
-            mentions = re.findall(r'@(\w+)', data.get('listing'))
-            if mentions:
-                for mention in mentions:
-                    tagged_user = User.objects.get(username=mention)
-                    if tagged_user:
-                        Notification.objects.create(
-                            mentioned=tagged_user,
-                            mention_job=post
-                        )
-            return HttpResponseRedirect(reverse('dashboard'), {'notifications': notifications})
-
-    form = JobForm()
-    return render(request, 'listing.html', {'form': form})
 
 
 def profile_detail(request, username):

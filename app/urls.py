@@ -16,9 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from user import views as user_views
-from job import views as job_views
+from job import views
 from django.conf.urls import (handler404, handler500)
-# from django.views.generic import TemplateView
+
 
 handler404 = user_views.handler404
 handler500 = user_views.handler500
@@ -29,8 +29,10 @@ urlpatterns = [
     path('register/', user_views.register_view, name='registerview'),
     path('', user_views.dashboard, name='dashboard'),
     path('notifications/', user_views.notification_view, name="notifications"),
-    path('create/', job_views.create_listing_view.as_view(), name='createlistingview'),
-    path('listing/<int:listing_id>/', job_views.listing_detail_view.as_view(), name='listingdetailview'),
+    path('create/', views.create_listing_view.as_view(),
+         name='createlisting'),
+    path('listing/<int:listing_id>/',
+         views.listing_detail_view.as_view(), name='listingdetail'),
     path('profile/<str:username>/', user_views.profile_detail, name='userprofile'),
     path('admin/', admin.site.urls),
 ]
