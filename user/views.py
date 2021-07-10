@@ -9,6 +9,7 @@ from django.views import View
 import re
 
 
+# @login_required
 def dashboard(request):
     listings = Listing.objects.all()
     return render(request, 'dashboard.html', {'listings': listings})
@@ -39,24 +40,12 @@ def register_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            new_user = User.objects.create_user(username=data.get(
-                'username'), password=data.get('password'), name=data.get('name'), bio=data.get('bio'), date_joined=data.get('date_joined'), email=data.get('email'), role=data.get('role'))
-            login(request, new_user)
+            new_user = User.objects.create_user(username=data['username'], password=data['password'], email=data['email'], name=data['name'],
+                                                role=data['role'],)
             return HttpResponseRedirect(reverse('dashboard'))
 
     form = RegisterForm()
     return render(request, 'register.html', {'form': form})
-
-
-@login_required
-def dashboard(request):
-    user = Listing.objects.filter(creator=request.user)
-    # following = listing.objects.filter(user__in=request.user.following.all())
-    # notifications = views.notification_count_view(request)
-    # feed = user | following
-    # feed = feed.order_by('-time')
-    # return render(request, 'dashboard.html', {'feed': feed, 'notifications': notifications})
-    return render(request, 'dashboard.html')
 
 
 def handler404(request, exception):
@@ -97,4 +86,5 @@ def profile_detail(request, username):
     user = User.objects.filter(username=username).first()
     listings = Listing.objects.filter(creator=user).order_by('-date_posted')
     notifications = notification_count_view(request)
+    # new_user = User.objects.create_user(email=data['email'], date_joined=data['date_joined'], role=data['role],)
     return render(request, 'profile.html', {'user': user, 'listings': listings, 'notifications': notifications})

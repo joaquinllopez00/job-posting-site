@@ -14,7 +14,7 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['name', 'bio', 'email', 'role']
+        fields = ['name', 'email', 'role']
 
 
 class UserCreationForm(UserCreationForm):
@@ -24,7 +24,8 @@ class UserCreationForm(UserCreationForm):
 
 
 class JobForm(forms.ModelForm):
-    listing = forms.CharField(widget=forms.Textarea, max_length=140) #max length dictated by rubric
+    # max length dictated by rubric
+    listing = forms.CharField(widget=forms.Textarea, max_length=140)
 
     class Meta:
         model = Listing
