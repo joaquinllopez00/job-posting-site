@@ -1,4 +1,4 @@
-from job.models import Listing
+from user.models import Listing
 from job.forms import CreateListingForm
 from django.views.generic import View
 from django.views.generic.detail import DetailView
