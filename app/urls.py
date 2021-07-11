@@ -26,7 +26,12 @@ handler500 = user_views.handler500
 urlpatterns = [
     path('login/', user_views.login_view, name='loginview'),
     path('logout/', user_views.logout_view, name='logoutview'),
-    path('register/', user_views.register_view, name='registerview'),
+    path('register/employee/', user_views.employee_registration,
+         name='employee-registration'),
+    path('register/employer/', user_views.employer_registration,
+         name='employer-registration'),
+    path('profile/edit/<int:id>/',
+         user_views.employee_edit_profile, name='edit-profile'),
     path('', user_views.dashboard, name='dashboard'),
     path('notifications/', user_views.notification_view, name="notifications"),
     path('create/', views.create_listing_view.as_view(),
