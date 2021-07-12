@@ -8,11 +8,22 @@ body {
 :root {
   --font-stack: "Raleway", sans-serif;
   --light-fontWeight: 100;
-  --heave-fontWeight: 400;
+  --heavy-fontWeight: 400;
   --font-logo: "Montseratt", sans-serif;
   --background-color: rgb(240, 240, 240);
   --light-color: #2dd8cd;
   --darker-color: #2dd8cdf0;
+  --offWhite: rgb(250, 250, 250);
+  --offBlack: rgb(30, 30, 30);
+  --card-padding: 2rem;
+  --card-subContainer-borderRadius: 3px;
+  --card-subContainer-padding: 1rem;
+  --card-marginTop: 1.5rem;
+  --container-borderRadius: 10px;
+  --button-boxShadow: 0px 5px 10px var(--light-color);
+  --button-transition: all 0.2s ease;
+  --button-marginTop: 1rem;
+  --button-padding: 0.5rem;
 }
 
 h1,
@@ -24,6 +35,7 @@ h6,
 p {
   font-family: var(--font-stack);
   font-weight: var(--light-fontWeight);
+  color: var(--offBlack);
 }
 
 a {
