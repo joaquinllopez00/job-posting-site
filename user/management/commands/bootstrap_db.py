@@ -36,7 +36,7 @@ class Command(BaseCommand):
                     user=user,
                     title=f'I want to hire a {person.occupation()}!',
                     description=text.text(),
-                    location=f'{address.address()} {address.city()} {address.state()}',
+                    location=f'{address.address()}, {address.city()}, {address.state()}',
                     job_type=random.randint(1, 3),
                     category=category,
                     salary=random.randint(25000, 150000),
