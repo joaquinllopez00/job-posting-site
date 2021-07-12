@@ -1,4 +1,4 @@
-from mimesis import Person, Text
+from mimesis import Person, Text, Address
 from django.core.management.base import BaseCommand
 from user.models import Category, User, Listing
 from django.utils.timezone import now
@@ -11,6 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         person = Person()
         text = Text()
+        address = Address('EN')
 
         self.stdout.write(f"Creating test user...")
 
@@ -35,7 +36,7 @@ class Command(BaseCommand):
                     user=user,
                     title=f'I want to hire a {person.occupation()}!',
                     description=text.text(),
-                    location=text.word(),
+                    location=f'{address.address()} {address.city()} {address.state()}',
                     job_type=random.randint(1, 3),
                     category=category,
                     salary=random.randint(25000, 150000),
@@ -74,7 +75,7 @@ class Command(BaseCommand):
                     user=user,
                     title=f'I want to hire a {person.occupation()}!',
                     description=text.text(),
-                    location=text.word(),
+                    location=f'{address.address()}, {address.city()}, {address.state()}',
                     job_type=random.randint(1, 3),
                     category=category,
                     salary=random.randint(25000, 150000),
