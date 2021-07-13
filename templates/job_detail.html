@@ -4,7 +4,7 @@
 
 <div class="listing__container">
   <div class="listing__header">
-    <h2 id="header">{{listing.title}}</h2>
+    <h2 id="header">{{listing.title}}{% if favorite %}★{% endif %}</h2>
     <a href="/profile/{{listing.user.username}}">{{listing.user.name}}</a>
   </div>
   <div class="listing-hero__container">
@@ -14,4 +14,7 @@
   <button id=listing__button>
       <a href="" id="listing__button">Quick Apply</a>
     </button>
+  <button id="favorite_button">
+      <a href="/favorite/{{listing.id}}/">{% if not favorite %}Favorite{% else %}Unfavorite{% endif %}</a>
+  </button>
 </div> {% endblock %}
