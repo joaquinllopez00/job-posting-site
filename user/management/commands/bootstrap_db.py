@@ -1,7 +1,8 @@
-from mimesis import Person, Text
+from mimesis import Person, Text, Address
 from django.core.management.base import BaseCommand
-from user.models import User
-from job.models import Listing
+from user.models import Category, User, Listing
+from django.utils.timezone import now
+import random
 
 
 class Command(BaseCommand):
@@ -10,6 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         person = Person()
         text = Text()
+        address = Address('EN')
 
         self.stdout.write(f"Creating test user...")
 
@@ -24,10 +26,24 @@ class Command(BaseCommand):
                 name='ThisIsThe TestUser'
             )
 
+            category = Category.objects.create(
+                name=text.word()
+            )
+
+            company_name = f'{text.word()}{text.word()}'
+
             Listing.objects.create(
-                    creator=user,
+                    user=user,
                     title=f'I want to hire a {person.occupation()}!',
-                    description=text.text()
+                    description=text.text(),
+                    location=f'{address.address()}, {address.city()}, {address.state()}',
+                    job_type=random.randint(1, 3),
+                    category=category,
+                    salary=random.randint(25000, 150000),
+                    company_name=company_name,
+                    company_description=text.text(),
+                    url=f'https://{company_name}.com',
+                    post_date=now()
             )
 
             self.stdout.write(self.style.SUCCESS("Sucessfully created test user!"))
@@ -48,12 +64,26 @@ class Command(BaseCommand):
                 name=person.full_name()
             )
 
+            category = Category.objects.create(
+                name=text.word()
+            )
+
+            company_name = f'{text.word()}{text.word()}'
+
             for __ in range(2):
                 Listing.objects.create(
-                    creator=user,
+                    user=user,
                     title=f'I want to hire a {person.occupation()}!',
-                    description=text.text()
-                )
+                    description=text.text(),
+                    location=f'{address.address()}, {address.city()}, {address.state()}',
+                    job_type=random.randint(1, 3),
+                    category=category,
+                    salary=random.randint(25000, 150000),
+                    company_name=company_name,
+                    company_description=text.text(),
+                    url=f'https://{company_name}.com',
+                    post_date=now()
+            )
 
         self.stdout.write(self.style.SUCCESS("Sucessfully created users w/ listings!"))
 

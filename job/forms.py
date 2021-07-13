@@ -1,5 +1,5 @@
 from django import forms
-from user.models import *
+from .models import *
 
 
 class CreateListingForm(forms.ModelForm):
@@ -14,6 +14,7 @@ class CreateListingForm(forms.ModelForm):
         self.fields['description'].label = "Job Description :"
         self.fields['post_date'].label = " Job Post Date :"
         self.fields['company_name'].label = "Company Name :"
+        self.fields['tags'].label = "Tags :"
         self.fields['url'].label = "Website :"
 
         self.fields['title'].widget.attrs.update(
@@ -23,12 +24,12 @@ class CreateListingForm(forms.ModelForm):
         )
         self.fields['location'].widget.attrs.update(
             {
-                'placeholder': 'eg : Bangladesh',
+                'placeholder': 'eg : Des Moines, Iowa',
             }
         )
         self.fields['salary'].widget.attrs.update(
             {
-                'placeholder': '$800 - $1200',
+                'placeholder': '$1500 - $2200',
             }
         )
         self.fields['post_date'].widget.attrs.update(
@@ -42,11 +43,17 @@ class CreateListingForm(forms.ModelForm):
                 'placeholder': 'Company Name',
             }
         )
+        self.fields['tags'].widget.attrs.update(
+            {
+                'placeholder': 'Use comma separated. eg: Python, JavaScript ',
+            }
+        )
         self.fields['url'].widget.attrs.update(
             {
                 'placeholder': 'https://example.com',
             }
         )
+        
 
     class Meta:
         model = Listing
@@ -61,6 +68,7 @@ class CreateListingForm(forms.ModelForm):
             "post_date",
             "company_name",
             "company_description",
+            "tags",
             "url"
         ]
 

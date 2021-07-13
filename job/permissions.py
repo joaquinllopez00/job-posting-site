@@ -5,7 +5,7 @@ def employer(function):
 
     def wrap(request, *args, **kwargs):
 
-        if request.user.role == 'employer':
+        if request.user.classification == 'employer':
             return function(request, *args, **kwargs)
         else:
             raise PermissionDenied
@@ -17,7 +17,7 @@ def employee(function):
 
     def wrap(request, *args, **kwargs):
 
-        if request.user.role == 'employee':
+        if request.user.classification == 'employee':
             return function(request, *args, **kwargs)
         else:
             raise PermissionDenied

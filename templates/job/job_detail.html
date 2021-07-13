@@ -1,0 +1,17 @@
+
+</div>{% extends 'alternate_base.html' %}{% block content %}
+<br />
+
+<div class="listing__container">
+  <div class="listing__header">
+    <h2 id="header">{{listing.title}}</h2>
+    <a href="/profile/{{listing.user.username}}">{{listing.user.name}}</a>
+  </div>
+  <div class="listing-hero__container">
+    <h5>Description:</h5>
+    <p>{{listing.description}}</p>
+  </div>
+  <button id=listing__button>
+      <a href="" id="listing__button">Quick Apply</a>
+    </button>
+</div> {% endblock %}

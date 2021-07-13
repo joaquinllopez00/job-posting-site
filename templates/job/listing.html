@@ -1,0 +1,25 @@
+{% extends 'base.html' %}{% block content %}
+<br />
+
+<div class="row">
+  <class class="col-sm-6">
+    <div class="card">
+      <div class="card-body" style="background-color: #9900ff">
+        <h2 class="card-title">{{listing.title}}</h2>
+        <p>{{listing.user}}</p>
+
+        <p class="card-text align-items-center"></p>
+        <div class="listing__container">
+          <div class="listing-content__container">
+            <div class="listing-content__subContainer">
+              <h3>Description:</h3>
+              <p>{{listing.description}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </class>
+
+  {% endblock %}
+</div>

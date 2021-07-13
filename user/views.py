@@ -1,90 +1,57 @@
-from job.permissions import employee
-from django.contrib import messages
 from django.shortcuts import render, HttpResponseRedirect, reverse, redirect
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import *
-from user.models import *
-from user.forms import *
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-
-
-@login_required
-def dashboard(request):
-    published_jobs = Listing.objects.filter(
-        is_published=True).order_by('-timestamp')
-    jobs = published_jobs.filter(is_closed=False)
-    total_candidates = User.objects.filter(role='employee').count()
-    total_companies = User.objects.filter(role='employer').count()
-    paginator = Paginator(jobs, 3)
-    page_number = request.GET.get('page', None)
-    page_obj = paginator.get_page(page_number)
-
-    if request.is_ajax():
-        job_lists = []
-        job_objects_list = page_obj.object_list.values()
-        for job_list in job_objects_list:
-            job_lists.append(job_list)
-
-        next_page_number = None
-        if page_obj.has_next():
-            next_page_number = page_obj.next_page_number()
-
-        prev_page_number = None
-        if page_obj.has_previous():
-            prev_page_number = page_obj.previous_page_number()
-
-        data = {
-            'job_lists': job_lists,
-            'current_page_no': page_obj.number,
-            'next_page_number': next_page_number,
-            'no_of_page': paginator.num_pages,
-            'prev_page_number': prev_page_number
-        }
-        return JsonResponse(data)
-
-    context = {
-
-        'total_candidates': total_candidates,
-        'total_companies': total_companies,
-        'total_jobs': len(jobs),
-        'total_completed_jobs': len(published_jobs.filter(is_closed=True)),
-        'page_obj': page_obj
-    }
-    print('Success')
-    return render(request, 'dashboard.html', context)
+from job.permissions import employee
+from django.contrib import messages, auth
+from user.models import *
+from user.forms import *
+from .forms import *
 
 
 def login_view(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            user = authenticate(request, username=data.get(
-                'username'), password=data.get('password'))
-            if user:
-                login(request, user)
-                return HttpResponseRedirect(request.GET.get('next', reverse('dashboard')))
+    """
+    User ability to logIn
 
-    form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+    """
+    form = LoginForm(request.POST or None)
+
+    if request.user.is_authenticated:
+        return redirect('/')
+    
+    else:
+        if request.method == 'POST':
+            if form.is_valid():
+                auth.login(request, form.get_user())
+                return HttpResponseRedirect(get_success_url(request))
+
+    return render(request, 'user/login.html', {'form': form})
 
 
 def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('dashboard'))
+    """
+    User ability to logout
+    """
+    auth.logout(request)
+    messages.success(request, "You have successfully logged out")
+    return redirect('user:login')
 
 
 def employee_registration(request):
+    """
+    Handle Employee Registration
+
+    """
     form = EmployeeRegistration(request.POST or None)
     if form.is_valid():
         form = form.save()
-        return redirect('login')
-    return render(request, 'employee.html', {'form': form})
+        return redirect('user:login')
 
-# (login_url=reverse_lazy('accounts:login'))
+    return render(request,'user/employee.html',{'form':form})
+
+
 
 
 @login_required
@@ -117,7 +84,7 @@ def employer_registration(request):
     if form.is_valid():
         form = form.save()
         return redirect('login')
-    return render(request, 'employer.html', {'form': form})
+    return render(request, 'user/employer.html', {'form': form})
 
 
 def handler404(request, exception):
@@ -152,3 +119,16 @@ def notification_count_view(request):
     else:
         notification_count = 0
     return notification_count
+
+
+def get_success_url(request):
+
+    """
+    Handle Success Url After LogIN
+
+    """
+    if 'next' in request.GET and request.GET['next'] != '':
+        return request.GET['next']
+    else:
+        return reverse('job:home')
+
