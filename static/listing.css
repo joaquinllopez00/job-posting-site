@@ -26,7 +26,6 @@
 #listing__button,
 #favorite_button {
   margin-top: 1rem;
-  padding: 0.5rem;
   transition: var(--button-transition);
   border: none;
   background: var(--darker-color);
@@ -38,6 +37,11 @@
 #favorite_button a {
   outline: none;
   color: rgb(250, 250, 250);
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: var(--button-padding);
 }
 
 #listing__button a:hover,
