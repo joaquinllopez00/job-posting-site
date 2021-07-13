@@ -61,12 +61,13 @@ class listing_detail_view(LoginRequiredMixin, DetailView):
     template = 'listing.html'
     slug_field = "creator"
 
-    def listing_detail(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         listing_id = kwargs['listing_id']
         req_listing = Listing.objects.get(id=listing_id)
         print('listing', req_listing)
         template = 'job_detail.html'
-        return render(request, template, {'listing': req_listing})
+        is_it_favorite = FavoriteJob.objects.filter(job=listing_id, user=request.user)
+        return render(request, template, {'listing': req_listing, 'favorite': is_it_favorite})
 
 
 @login_required
@@ -285,3 +286,20 @@ def job_edit_view(request, id=id):
         }))
     return render(request, 'job_edit.html', {'form': form,
                                              'categories': categories})
+
+@login_required
+@employee
+def favorite(request, listing_id):
+    is_it_favorite = FavoriteJob.objects.filter(job=listing_id, user=request.user)
+
+    if not is_it_favorite:
+        listing = Listing.objects.get(id=listing_id)
+        FavoriteJob.objects.create(
+            user=request.user,
+            job=listing,
+        )
+        return HttpResponseRedirect(f'/listing/{listing_id}')
+    
+    else:
+        is_it_favorite.delete()
+        return HttpResponseRedirect(f'/listing/{listing_id}')

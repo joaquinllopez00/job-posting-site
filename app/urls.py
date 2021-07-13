@@ -38,6 +38,7 @@ urlpatterns = [
          name='createlisting'),
     path('listing/<int:listing_id>/',
          views.listing_detail_view.as_view(), name='listingdetail'),
+    path('favorite/<int:listing_id>/', views.favorite, name='favoriteListing'),
     path('profile/<str:username>/', user_views.profile_detail, name='userprofile'),
     path('admin/', admin.site.urls),
 ]
