@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user',
     'job',
-    'notifications'
+    'ckeditor',
+    'taggit',
+    'user_visit',
 ]
 
 MIDDLEWARE = [
